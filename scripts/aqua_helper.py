@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 def time_slice(df, time_period):
+    """return a reshaped panda dataframe for a given time period organized by the value for the 'variable' column"""
     # Only take data for time period of interest
     df = df[df.time_period == time_period]
 
@@ -15,6 +16,8 @@ def time_slice(df, time_period):
     return df
 
 def country_slice(df, country):
+    """return a reshaped panda dataframe for a given country organized by the value for the 'time period' variable"""
+    
     # Only take data for country of interest
     df = df[df.country == country]
 
@@ -25,6 +28,8 @@ def country_slice(df, country):
     return df
 
 def time_series(df, country, variable):
+    """return a panda dataframe for a given country's variable given as the input"""
+    
     # Only take data for country/variable combo
     series = df[(df.country == country) & (df.variable == variable)]
 
@@ -54,9 +59,14 @@ simple_regions = {
 }
 
 def subregion(data, region):
+    """ return a panda dataframe for a speicific region"""
+    
     return data[data.region == region]
 
 def variable_slice(df, variable):
+    """return a reshaped panda dataframe for all countries organized by the value for the 'time period' 
+    variable after we filter the given dataframe with a specific variable """
+    
     df = df[df.variable==variable]
     df = df.pivot(index='country', columns='time_period', values='value')
     return df
@@ -105,6 +115,7 @@ def map_over_time(df, variable, time_periods, log=False,
 
 def plot_hist(df, variable, bins=None, xlabel=None, by=None,
               ylabel=None, title=None, logx=False, ax=None):
+    """plot a historgram of a given variable with optional x/y labels, title, logx"""
     if not bins:
         bins = 20
 
@@ -141,6 +152,8 @@ def plot_hist(df, variable, bins=None, xlabel=None, by=None,
 
 def conditional_bar(series, bar_colors=None, color_labels=None, figsize=(13,24),
                    xlabel=None, by=None, ylabel=None, title=None):
+    """plot a horizontal bar plot of a given series with optional input as bar color, color label, x/y label, title, etc """
+    
     fig, ax  = plt.subplots(figsize=figsize)
     if not bar_colors:
         bar_colors = mpl.rcParams['axes.prop_cycle'].by_key()['color'][0]
