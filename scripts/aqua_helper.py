@@ -2,6 +2,11 @@ import pandas as pd
 import folium
 from matplotlib import pyplot as plt
 import numpy as np
+import logging 
+
+
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+
 
 def time_slice(df, time_period):
     """return a reshaped panda dataframe for a given time period organized by the value for the 'variable' column"""
@@ -12,7 +17,6 @@ def time_slice(df, time_period):
     df = df.pivot(index='country', columns='variable', values='value')
 
     df.columns.name = time_period
-
     return df
 
 def country_slice(df, country):
