@@ -14,19 +14,21 @@ def test_time_slice():
   
  # expeced data 
   expected = {
-      'area': [1.0, np.NaN],
-      'pop': [np.NaN,3.0]
+      'country': ['China','UK'],
+      'time_period':['1958-1962','1958-1962'],
+      'variable': ['area','pop'],
+      'value':[1,3]
   }
 
   time_slice_df = pd.DataFrame(data=expected)
-  time_slice_df.index = ['China','UK']
-  time_slice_df.columns.name = 'country'   
+  time_slice_df = time_slice_df.pivot(index='country', columns='variable', values='value')
+
   
   # check type 
   assert isinstance(time_slice_df, pd.DataFrame)
   
   # check expected output 
-  assert time_slice_df.equals(time_slice(df, time_period))
+  assert time_slice_df.equals(aqua_helper.time_slice(df, time_period))
   
 
   
@@ -52,27 +54,16 @@ def test_time_series():
       'pop':[1,2]
              }
   time_series_df = pd.DataFrame(data=expected)
-  time_series_df.set_index('year_measured') 
+  time_series_df.year_measured = time_series_df.year_measured.astype(int)
+  time_series_df.set_index('year_measured',inplace=True)
+  time_series_df.columns = ['pop']
   
   # check type 
   assert isinstance(time_series_df, pd.DataFrame)
   
   # check expected output 
-  ##????
-  assert time_series_df.equals(time_series(df, country, variable))
+  assert time_series_df.equals(aqua_helper.time_series(df, country, variable))
 
-  
-  
-  
-  
-def variable_slice(df, variable):
-    
-    # Only data for that variable
-    df = df[df.variable==variable]
-    
-    # Get variable for each country over the time periods 
-    df = df.pivot(index='country', columns='time_period', values='value')
-    return df
   
 
 def test_variable_slice():
@@ -88,18 +79,19 @@ def test_variable_slice():
  # variable input 
   variable = 'pop'
   
- # expeced data 
-  expected = {
-      'year_measured':[1995,1992],
-      'pop':[1,2]
-             }
+ # expeced data
+  expected = {'country':['US'],
+                'time_period':['1973-1977'],
+                'variable':['gdp'],
+                'value':[4]}
   variable_slice_df = pd.DataFrame(data=expected)
-  variable_slice_df.set_index('year_measured') 
+  variable_slice_df = variable_slice_df.pivot(index='country', columns='time_period', values='value')
+  variable_slice_df.equals(variable_slice(df, 'gdp')) 
   
   # check type 
   assert isinstance(variable_slice_df, pd.DataFrame)
   
   # check expected output 
-  assert variable_slice_df.equals(variable_slice(df, variable))
+  assert variable_slice_df.equals(aqua_helper.variable_slice(df, variable))
 
   
