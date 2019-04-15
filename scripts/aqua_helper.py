@@ -119,7 +119,25 @@ def map_over_time(df, variable, time_periods, log=False,
 
 def plot_hist(df, variable, bins=None, xlabel=None, by=None,
               ylabel=None, title=None, logx=False, ax=None):
-    """plot a historgram of a given variable with optional x/y labels, title, logx"""
+    """ plot a historgram of a given variable with optional x/y labels, title, logx across all countries
+    
+      
+    Args:
+        df (DataFrame): A DataFrame with values to plot.
+        variable (str): Variable of interest.
+        bins (:obj:`int`, optional): Number of bins for histogram. Defaults to None.
+        xlabel (:obj:`str`, optional): Label for x-axis. Defaults to None.
+        by (:obj:`str`, optional): Variable based on which bins are ordered. Defaults to None.
+        ylabel (:obj:`str`, optional): Label for y-axis. Defaults to None.
+        title (:obj:`str`, optional): Title name. Defaults to None.
+        logx (:obj:`bool`, optional): Whether to log transform values. Defaults to None.
+        ax (:obj:`.axes.Axes`, optional): Axes of the plot. Defaults to None.
+    
+    Returns:
+        .axes.Axes: ax. The plotted axes.
+        
+    """
+    
     if not bins:
         bins = 20
 
@@ -156,7 +174,22 @@ def plot_hist(df, variable, bins=None, xlabel=None, by=None,
 
 def conditional_bar(series, bar_colors=None, color_labels=None, figsize=(13,24),
                    xlabel=None, by=None, ylabel=None, title=None):
-    """plot a horizontal bar plot of a given series with optional input as bar color, color label, x/y label, title, etc """
+    """plot a horizontal bar plot of a given series with optional input as bar color, color label, x/y label, title, etc 
+    
+    Args:
+        series (Series): Array of values to be plotted.
+        bar_colors (:obj:`str`, optional): Color choice of bars. Defaults to None.
+        color_labels (:obj:`str`, optional): Label for color choices. Defaults to None.
+        figsize (:obj:`tuple`, optional): Size of figure. Defaults to (13,24).
+        xlabel (:obj:`str`, optional): Label for x-axis. Defaults to None.
+        by (:obj:`str`, optional): Variable based on which bins are ordered. Defaults to None.
+        ylabel (:obj:`str`, optional): Label for y-axis. Defaults to None.
+        title (:obj:`str`, optional): Title name. Defaults to None.
+        
+    Returns:
+        ~.figure.Figure: fig. The figure plotted with bars.
+    
+    """
     
     fig, ax  = plt.subplots(figsize=figsize)
     if not bar_colors:
