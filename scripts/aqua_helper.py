@@ -9,7 +9,8 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
 
 def time_slice(df, time_period):
-    """return a reshaped panda dataframe for a given time period organized by the value for the 'variable' column"""
+    """ return a reshaped panda dataframe for a given time period organized by the value for the 'variable' column """
+    
     # Only take data for time period of interest
     df = df[df.time_period == time_period]
 
@@ -17,10 +18,14 @@ def time_slice(df, time_period):
     df = df.pivot(index='country', columns='variable', values='value')
 
     df.columns.name = time_period
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return df
 
 def country_slice(df, country):
-    """return a reshaped panda dataframe for a given country organized by the value for the 'time period' variable"""
+    """ return a reshaped panda dataframe for a given country organized by the value for the 'time period' variable """
     
     # Only take data for country of interest
     df = df[df.country == country]
@@ -29,10 +34,14 @@ def country_slice(df, country):
     df = df.pivot(index='variable', columns='time_period', values='value')
 
     df.index.name = country
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return df
 
 def time_series(df, country, variable):
-    """return a panda dataframe for a given country's variable given as the input"""
+    """ return a panda dataframe for a given country's variable given as the input """
     
     # Only take data for country/variable combo
     series = df[(df.country == country) & (df.variable == variable)]
@@ -44,6 +53,10 @@ def time_series(df, country, variable):
     series.year_measured = series.year_measured.astype(int)
     series.set_index('year_measured', inplace=True)
     series.columns = [variable]
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return series
 
 simple_regions = {
@@ -63,16 +76,23 @@ simple_regions = {
 }
 
 def subregion(data, region):
-    """ return a panda dataframe for a speicific region"""
+    """ return a panda dataframe for a speicific region """
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
     
     return data[data.region == region]
 
 def variable_slice(df, variable):
-    """return a reshaped panda dataframe for all countries organized by the value for the 'time period' 
+    """ return a reshaped panda dataframe for all countries organized by the value for the 'time period' 
     variable after we filter the given dataframe with a specific variable """
     
     df = df[df.variable==variable]
     df = df.pivot(index='country', columns='time_period', values='value')
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return df
 
 
@@ -97,6 +117,10 @@ def plot_map(df, variable, time_period=None, log=False,
                    fill_color='PuBuGn', fill_opacity=0.7, line_opacity=0.2,
                    legend_name=legend_name if legend_name else variable,
                    threshold_scale=threshold_scale)
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return map
 
 
@@ -109,6 +133,10 @@ def map_over_time(df, variable, time_periods, log=False,
                                           description='Time period:',
                                           disabled=False,
                                           button_style='')
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     widgets.interact(plot_map, df=widgets.fixed(df),
                      variable=widgets.fixed(variable),
                      time_period=time_slider, log=widgets.fixed(log),
@@ -169,12 +197,15 @@ def plot_hist(df, variable, bins=None, xlabel=None, by=None,
         ax.set_ylabel(ylabel);
     if title:
         ax.set_title(title);
-
+        
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return ax
 
 def conditional_bar(series, bar_colors=None, color_labels=None, figsize=(13,24),
                    xlabel=None, by=None, ylabel=None, title=None):
-    """plot a horizontal bar plot of a given series with optional input as bar color, color label, x/y label, title, etc 
+    """ plot a horizontal bar plot of a given series with optional input as bar color, color label, x/y label, title, etc 
     
     Args:
         series (Series): Array of values to be plotted.
@@ -185,7 +216,7 @@ def conditional_bar(series, bar_colors=None, color_labels=None, figsize=(13,24),
         by (:obj:`str`, optional): Variable based on which bins are ordered. Defaults to None.
         ylabel (:obj:`str`, optional): Label for y-axis. Defaults to None.
         title (:obj:`str`, optional): Title name. Defaults to None.
-        
+       
     Returns:
         ~.figure.Figure: fig. The figure plotted with bars.
     
@@ -206,6 +237,10 @@ def conditional_bar(series, bar_colors=None, color_labels=None, figsize=(13,24),
         lines, labels = ax.get_legend_handles_labels();
         ax.legend(lines[-len(color_labels.keys()):], labels[-len(color_labels.keys()):], loc='upper right');
     plt.close()
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return fig
 
 
@@ -226,7 +261,10 @@ def plot_scatter(df, x, y, xlabel=None, ylabel=None, title=None,
         ax.set_xscale('log')
     if logy:
         ax.set_yscale('log')
-
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     ax.set_xlabel(xlabel if xlabel else x);
     ax.set_ylabel(ylabel if ylabel else y);
     if title:
@@ -244,6 +282,10 @@ def two_hist(df, variable, bins=50,
                     logx=True, ax=ax2,
                     title='Log of '+ variable if not title else title)
     plt.close()
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     return fig
 
 def hist_over_var(df, variables, bins=50, first_choice=None,
@@ -255,10 +297,12 @@ def hist_over_var(df, variables, bins=50, first_choice=None,
                                        description='Variable:',
                                        disabled=False,
                                        button_style='')
+    
+    logging.info('working as expected')
+    logging.warning('something unexpected happened')
+    
     widgets.interact(two_hist, df=widgets.fixed(df),
                      variable=variable_slider, ylabel=widgets.fixed(ylabel),
                      title=widgets.fixed(title), bins=widgets.fixed(bins));
 
-logging.debug('This is a debug message') 
-logging.info('This is an info message') 
-logging.warning('This is a warning message')
+
