@@ -258,3 +258,7 @@ def hist_over_var(df, variables, bins=50, first_choice=None,
     widgets.interact(two_hist, df=widgets.fixed(df),
                      variable=variable_slider, ylabel=widgets.fixed(ylabel),
                      title=widgets.fixed(title), bins=widgets.fixed(bins));
+
+logging.debug('This is a debug message') 
+logging.info('This is an info message') 
+logging.warning('This is a warning message')
